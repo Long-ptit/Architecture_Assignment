@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">MVP Architecture</string>
+    <string name="click_to_delete">click here to delete</string>
+    <string name="applications_used_during_the_day">Applications used during the day</string>
+</resources>
