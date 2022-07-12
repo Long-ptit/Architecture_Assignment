@@ -12,7 +12,7 @@
             android:id="@+id/img_icon_app"
             android:layout_width="@dimen/dp70"
             android:layout_height="@dimen/dp70"
-            android:src="@mipmap/ic_launcher" />
+             />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">MVVM Architecture</string>
     <string name="notification_for_tracker_usage">Notification for tracker usage</string>
     <string name="click_to_delete">Click to delete</string>
     <string name="applications_used_during_the_day">Applications used during the day</string>
+
 </resources>

@@ -11,6 +11,15 @@
         android:layout_marginTop="@dimen/dp20"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp20"
+            android:text="App has longest time for today"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp20"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

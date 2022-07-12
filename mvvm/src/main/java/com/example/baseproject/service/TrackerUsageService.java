@@ -34,7 +34,7 @@ public class TrackerUsageService extends Service {
     private static final int ID_NOTIFICATION = 1;
     public static final String ACTION_NAME = "ACTION_NAME";
     public static final int ACTION_DELETE = 2;
-    private Handler mHandler;
+    private Handler mHandler = new Handler();
     private String mPackageNameCurrent = "";
 
     @Nullable
@@ -46,15 +46,14 @@ public class TrackerUsageService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mHandler = new Handler(Looper.getMainLooper());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        int action = intent.getIntExtra(ACTION_NAME, -1);
-        handleAction(action);
         if (intent != null) {
+            int action = intent.getIntExtra(ACTION_NAME, -1);
+            handleAction(action);
             getInfoApps();
         }
         return START_STICKY;
@@ -75,37 +74,25 @@ public class TrackerUsageService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     private void getInfoApps() {
-        List<AppInfor> inforApps = new ArrayList<>();
         @SuppressLint("WrongConstant")
         UsageStatsManager usageStatsManager =
                 (UsageStatsManager) getApplication().getSystemService(USAGE_STATS_SERVICE);
         List<UsageStats> usageStatsList = usageStatsManager.queryUsageStats(
                 UsageStatsManager.INTERVAL_BEST,
-                System.currentTimeMillis() - (60 * 60 * 1000 * 24),
+                System.currentTimeMillis() - (1000 * 60 * 60 * 24),
                 System.currentTimeMillis()
         );
-        for (UsageStats usageStats : usageStatsList) {
-            String packageName = usageStats.getPackageName();
-
-            String appName = Utilizes.getAppNameByPackageName(getApplication(), packageName);
-            Drawable appIcon = Utilizes.getAppIconByPackageName(getApplication(), packageName);
-            long appUsageTime = usageStats.getTotalTimeInForeground();
-
-            AppInfor appInfor = new AppInfor();
-            appInfor.setPackageName(packageName);
-            appInfor.setmAppName(appName);
-            appInfor.setmIconApp(appIcon);
-            appInfor.setTimeUsage(appUsageTime);
-            inforApps.add(appInfor);
-        }
-        Collections.sort(inforApps, (o1, o2) -> {
-            if (o1.getTimeUsage() == o2.getTimeUsage()) return 0;
-            return o1.getTimeUsage() > o2.getTimeUsage() ? -1 : 1;
-        });
-        AppInfor appInforLongest = inforApps.get(0);
-        if (!appInforLongest.getPackageName().equals(mPackageNameCurrent)) {
-            mPackageNameCurrent = appInforLongest.getPackageName();
-            createNotification(appInforLongest.getmAppName());
+        if (usageStatsList != null && usageStatsList.size() > 0) {
+            Collections.sort(usageStatsList, (o1, o2) -> {
+                if (o1.getTotalTimeInForeground() == o2.getTotalTimeInForeground()) return 0;
+                return o1.getTotalTimeInForeground() > o2.getTotalTimeInForeground() ? -1 : 1;
+            });
+            AppInfor appInforLongest = new AppInfor();
+            appInforLongest.setPackageName(usageStatsList.get(0).getPackageName());
+            if (!appInforLongest.getPackageName().equals(mPackageNameCurrent)) {
+                mPackageNameCurrent = appInforLongest.getPackageName();
+                createNotification(Utilizes.getAppNameByPackageName(this, appInforLongest.getPackageName()));
+            }
         }
         if (mHandler != null) {
             mHandler.postDelayed(() -> getInfoApps(), 1000);
@@ -114,8 +101,8 @@ public class TrackerUsageService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mHandler = null;
+        super.onDestroy();
     }
 
     private PendingIntent getPendingIntent(int action) {

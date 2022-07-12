@@ -7,6 +7,10 @@
         <entry key="..\:/DataAndroid/MVP/BaseProject/app/src/main/res/layout/activity_tracker_usage.xml" value="0.20967741935483872" />
         <entry key="..\:/DataAndroid/MVP/BaseProject/app/src/main/res/layout/item_app_infor.xml" value="0.25416666666666665" />
         <entry key="..\:/DataAndroid/MVP/BaseProject/app/src/main/res/layout/notification_tracker_usage.xml" value="0.25416666666666665" />
+        <entry key="..\:/DataAndroid/MVP/BaseProject/mvp/src/main/res/layout/activity_tracker_usage.xml" value="0.25416666666666665" />
+        <entry key="..\:/DataAndroid/MVP/BaseProject/mvp/src/main/res/layout/item_app_infor.xml" value="0.25416666666666665" />
+        <entry key="..\:/DataAndroid/MVP/BaseProject/mvp/src/main/res/layout/notification_tracker_usage.xml" value="0.25416666666666665" />
+        <entry key="..\:/DataAndroid/MVP/BaseProject/mvvm/src/main/res/layout/activity_tracker_usage.xml" value="0.264" />
       </map>
     </option>
   </component>
